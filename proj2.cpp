@@ -1,6 +1,6 @@
 /**
  * Jonathan Stoll
- * 2-22-23
+ * 3-31-23
  * CS 219.1001
  */
 
@@ -17,7 +17,7 @@ void printOutput(const std::string, const uint32_t, bool);
 
 int main() {
 	// open the input file
-  	std::ifstream inputFile("Programming-Project-1.txt");
+  	std::ifstream inputFile("Programming-Project-2.txt");
   	
   	// ensure the file is successfully opened
   	if (!inputFile.is_open()) {
@@ -50,6 +50,7 @@ int main() {
 // Takes two unsigned 32 bit integers and an operation to be performed. Performs the operation and returns the result
 uint32_t performOperation(const std::string op, const uint32_t a, const uint32_t b) {
 	if (op == "ADD")
+		std::cout << "adding " << std::hex << a << " + " << b << std::endl;
 		return (a + b);
 	// this if statement can be expanded to include more operations later
 }
