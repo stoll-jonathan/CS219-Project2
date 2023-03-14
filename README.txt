@@ -1,5 +1,5 @@
 HOW TO RUN
-To compile the main cpp file, use "g++ proj1.cpp -o proj1" in the terminal. You can then run the executable with "./proj1".
+To compile the main cpp file, use "g++ proj2.cpp -o proj2" in the terminal. You can then run the executable with "./proj2".
 
 WORKING PROCESS
 The main function opens and reads the input file. If the file cannot be read, the program will output "Could not read file" and close

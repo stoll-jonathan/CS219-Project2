@@ -4,6 +4,9 @@
  * CS 219.1001
  */
 
+/*
+TODO: Fix input reading, add support for new instructions, add NZ flag detection, update README
+*/
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -50,7 +53,6 @@ int main() {
 // Takes two unsigned 32 bit integers and an operation to be performed. Performs the operation and returns the result
 uint32_t performOperation(const std::string op, const uint32_t a, const uint32_t b) {
 	if (op == "ADD")
-		std::cout << "adding " << std::hex << a << " + " << b << std::endl;
 		return (a + b);
 	// this if statement can be expanded to include more operations later
 }
