@@ -5,18 +5,20 @@
  */
 
 /*
-TODO: Fix input reading, add support for new instructions, add NZ flag detection, update README
+TODO: add shift operations, test N flag detection, update README
 */
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <sstream>
 #include <string>
 
 uint32_t performOperation(const std::string, const uint32_t, const uint32_t);
-bool detectOverflow(const std::string, const uint32_t, const uint32_t, const uint32_t);
+int detectN(const uint32_t);
+int detectZ(const uint32_t);
 std::string removeSpaces(const std::string);
 uint32_t convertToInt(const std::string);
-void printOutput(const std::string, const uint32_t, bool);
+void printOutput(const std::string, const uint32_t, const uint32_t, const uint32_t, const int[2]);
 
 int main() {
 	// open the input file
@@ -38,10 +40,10 @@ int main() {
 	    
 	    // find the result and determine if an overflow occured
 	    uint32_t result = performOperation(op, arg1, arg2);
-		bool wasOverflow = detectOverflow(op, arg1, arg2, result);
+		int flags[2] = {detectN(result), detectZ(result)}; // [N, Z]
 		
 		// print the findings
-		printOutput(instr, result, wasOverflow);
+		printOutput(op, arg1, arg2, result, flags);
 	}
   	
   	// close the file
@@ -50,24 +52,48 @@ int main() {
   	return 0;
 }
 
-// Takes two unsigned 32 bit integers and an operation to be performed. Performs the operation and returns the result
+// Takes two arguemnts and an operation to be performed. Performs the operation and returns the result
 uint32_t performOperation(const std::string op, const uint32_t a, const uint32_t b) {
 	if (op == "ADD")
 		return (a + b);
-	// this if statement can be expanded to include more operations later
+	else if (op == "AND")
+		return (a & b);
+	/*
+	else if (op == "ASR")
+		return (a & b);
+	else if (op == "LSR")
+		return (a & b);
+	else if (op == "LSL")
+		return (a & b);
+	*/
+	else if (op == "NOT")
+		return (~a);
+	else if (op == "ORR")
+		return (a | b);
+	else if (op == "SUB")
+		return (a - b);
+	else if (op == "XOR")
+		return (a ^ b);
+		
+	//remove later
+	else
+		return 0;
 }
 
-// Takes two unsigned 32 bit integers, an operation, and the result of that operation. Uses this information to determine if an overflow has occured
-bool detectOverflow(const std::string op, const uint32_t a, const uint32_t b, const uint32_t res) {
-	if (op == "ADD") {
-		if (a > res || b > res) // When adding numbers, the result should never be less than either of the operands. If it is, an overflow has occured
-			return true;
-		else 
-			return false;
-	}
-	// this if statement can be expanded to include more operations later
-	
-	return false;
+// Takes the result of an operation and determines the value of the N flag
+int detectN(const uint32_t result) {
+	if (result < 0)
+		return 1;
+	else 
+		return 0;
+}
+
+// Takes the result of an operation and determines the value of the Z flag
+int detectZ(const uint32_t result) {
+	if (result == 0)
+		return 1;
+	else 
+		return 0;
 }
 
 // Takes a std::string possibly containing spaces and returns a version of that string with the spaces removed
@@ -95,8 +121,13 @@ uint32_t convertToInt(const std::string str) {
 }
 
 // Takes the details of an operation and output the results (including overflow detection) in the proper format
-void printOutput(const std::string instr, const uint32_t result, const bool wasOverflow) {
-	std::cout << instr << ": 0x" << std::uppercase << std::hex << result << std::endl;
-	std::cout << "Overflow: " << (wasOverflow ? "yes" : "no") << std::endl;
+void printOutput(const std::string op, const uint32_t arg1, const uint32_t arg2, const uint32_t result, const int flags[2]) {
+	std::cout << op << "   0x" << std::uppercase << std::left << std::setw(8) << std::hex << arg1;
+	
+	if (op != "NOT") // Don't print the second argument (0x0) if the operation only has one operand
+		std::cout << "  0x"  << std::uppercase << std::left << std::setw(8) << std::hex << arg2;
+					   
+	std::cout << ": 0x" << std::uppercase << std::left << std::setw(8) << result << std::endl;
+	std::cout << "N: " << flags[0] << "  Z: " << flags[1] << std::endl;
 	std::cout << std::endl;
 }
