@@ -4,16 +4,13 @@
  * CS 219.1001
  */
 
-/*
-TODO: update README
-*/
 #include <iostream>
 #include <iomanip>
 #include <fstream>
 #include <sstream>
 #include <string>
 
-int32_t performOperation(const std::string, const uint32_t, const uint32_t);
+int32_t performOperation(std::string, const uint32_t, const uint32_t);
 std::string removeSpaces(const std::string);
 uint32_t convertToInt(const std::string);
 void printOutput(const std::string, const uint32_t, const uint32_t, const uint32_t, const int[2]);
@@ -77,8 +74,6 @@ int32_t performOperation(std::string op, const uint32_t a, const uint32_t b) {
 		return (a - b);
 	else if (op == "XOR")
 		return (a ^ b);
-	else
-		return -1;
 }
 
 // Takes a std::string possibly containing spaces and returns a version of that string with the spaces removed
