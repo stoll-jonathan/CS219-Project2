@@ -5,7 +5,7 @@
  */
 
 /*
-TODO: add shift operations, test N flag detection, update README
+TODO: add ASR operation, test N flag detection, update README
 */
 #include <iostream>
 #include <iomanip>
@@ -34,12 +34,12 @@ int main() {
   	std::string instr;
 	while (getline(inputFile, instr)) {
 		// parse the instruction for its operation and arguments
-	    std::string op = removeSpaces(instr.substr(0, 3));
-	    uint32_t arg1  = convertToInt(removeSpaces(instr.substr(5, 10)));
-	    uint32_t arg2  = convertToInt(removeSpaces(instr.substr(16)));
-	    
-	    // find the result and determine if an overflow occured
-	    uint32_t result = performOperation(op, arg1, arg2);
+		std::string op = removeSpaces(instr.substr(0, 3));
+		uint32_t arg1  = convertToInt(removeSpaces(instr.substr(5, 10)));
+		uint32_t arg2  = convertToInt(removeSpaces(instr.substr(16)));
+
+		// find the result and determine if an overflow occured
+		uint32_t result = performOperation(op, arg1, arg2);
 		int flags[2] = {detectN(result), detectZ(result)}; // [N, Z]
 		
 		// print the findings
@@ -59,13 +59,13 @@ uint32_t performOperation(const std::string op, const uint32_t a, const uint32_t
 	else if (op == "AND")
 		return (a & b);
 	/*
-	else if (op == "ASR")
-		return (a & b);
-	else if (op == "LSR")
-		return (a & b);
-	else if (op == "LSL")
+	else if (op == "ASR") // fill with sign bit
 		return (a & b);
 	*/
+	else if (op == "LSR") // fill with zeros
+		return (a >> b);
+	else if (op == "LSL")
+		return (a << b);
 	else if (op == "NOT")
 		return (~a);
 	else if (op == "ORR")
@@ -74,10 +74,8 @@ uint32_t performOperation(const std::string op, const uint32_t a, const uint32_t
 		return (a - b);
 	else if (op == "XOR")
 		return (a ^ b);
-		
-	//remove later
 	else
-		return 0;
+		return -1;
 }
 
 // Takes the result of an operation and determines the value of the N flag
