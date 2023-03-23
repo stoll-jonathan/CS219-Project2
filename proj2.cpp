@@ -5,7 +5,7 @@
  */
 
 /*
-TODO: add ASR operation, test N flag detection, update README
+TODO: test N flag detection, update README
 */
 #include <iostream>
 #include <iomanip>
@@ -13,7 +13,7 @@ TODO: add ASR operation, test N flag detection, update README
 #include <sstream>
 #include <string>
 
-uint32_t performOperation(const std::string, const uint32_t, const uint32_t);
+int32_t performOperation(const std::string, const uint32_t, const uint32_t);
 int detectN(const uint32_t);
 int detectZ(const uint32_t);
 std::string removeSpaces(const std::string);
@@ -39,7 +39,7 @@ int main() {
 		uint32_t arg2  = convertToInt(removeSpaces(instr.substr(16)));
 
 		// find the result and determine if an overflow occured
-		uint32_t result = performOperation(op, arg1, arg2);
+		int32_t result = performOperation(op, arg1, arg2);
 		int flags[2] = {detectN(result), detectZ(result)}; // [N, Z]
 		
 		// print the findings
@@ -53,15 +53,13 @@ int main() {
 }
 
 // Takes two arguemnts and an operation to be performed. Performs the operation and returns the result
-uint32_t performOperation(const std::string op, const uint32_t a, const uint32_t b) {
+int32_t performOperation(const std::string op, const uint32_t a, const uint32_t b) {
 	if (op == "ADD")
 		return (a + b);
 	else if (op == "AND")
 		return (a & b);
-	/*
 	else if (op == "ASR") // fill with sign bit
-		return (a & b);
-	*/
+		return (static_cast<int>(a) >> b);
 	else if (op == "LSR") // fill with zeros
 		return (a >> b);
 	else if (op == "LSL")
