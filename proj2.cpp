@@ -14,8 +14,6 @@ TODO: update README
 #include <string>
 
 int32_t performOperation(const std::string, const uint32_t, const uint32_t);
-int detectN(const int32_t);
-int detectZ(const int32_t);
 std::string removeSpaces(const std::string);
 uint32_t convertToInt(const std::string);
 void printOutput(const std::string, const uint32_t, const uint32_t, const uint32_t, const int[2]);
@@ -43,8 +41,8 @@ int main() {
 		int flags[2] = {0, 0};
 		
 		if (op.back() == 's') {
-			flags[0] = detectN(result);
-			flags[1] = detectZ(result);
+			flags[0] = (result <  0) ? 1 : 0;
+			flags[1] = (result == 0) ? 1 : 0;
 		}
 		
 		// print the findings
@@ -81,22 +79,6 @@ int32_t performOperation(std::string op, const uint32_t a, const uint32_t b) {
 		return (a ^ b);
 	else
 		return -1;
-}
-
-// Takes the result of an operation and determines the value of the N flag
-int detectN(const int32_t result) {
-	if (result < 0)
-		return 1;
-	else 
-		return 0;
-}
-
-// Takes the result of an operation and determines the value of the Z flag
-int detectZ(const int32_t result) {
-	if (result == 0)
-		return 1;
-	else 
-		return 0;
 }
 
 // Takes a std::string possibly containing spaces and returns a version of that string with the spaces removed
