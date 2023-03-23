@@ -38,7 +38,7 @@ int main() {
 
 		// find the result and determine the values of the flags
 		int32_t result = performOperation(op, arg1, arg2);
-		int flags[2] = {0, 0};
+		int flags[2] = {0, 0}; // [N, Z]
 		
 		if (op.back() == 's') {
 			flags[0] = (result <  0) ? 1 : 0;
