@@ -30,14 +30,14 @@ int main() {
 	while (getline(inputFile, instr)) {
 		// parse the instruction for its operation and arguments
 		std::string op = removeSpaces(instr.substr(0, 4));
-		uint32_t arg1  = convertToInt(removeSpaces(instr.substr(5, 10)));
+		uint32_t arg1  = convertToInt(removeSpaces(instr.substr(5, 11)));
 		uint32_t arg2  = convertToInt(removeSpaces(instr.substr(16)));
 
 		// find the result and determine the values of the flags
 		int32_t result = performOperation(op, arg1, arg2);
 		int flags[2] = {0, 0}; // [N, Z]
 		
-		if (op.back() == 's') {
+		if (toupper(op.back()) == 'S') {
 			flags[0] = (result <  0) ? 1 : 0;
 			flags[1] = (result == 0) ? 1 : 0;
 		}
