@@ -10,8 +10,10 @@ ignored during mathematical operations. The performOperation function is then ca
 The function consists of an if statement which will perform the appropriate bitwise operation according to the instruction. All operations are
 performed using built-in C++ operators. Flags are then detected based on the result and a final function is called to format and output the data.
 
-FLAG DETECTION LOGIC
-The N flag is set if the result is less than zero, the Z flag is set if the result equals 0.
 
 RESULTS
-explain the result
+* The ADD and SUB commands simply add the operands using the '+' operator. C++ performs binary arithmetic the same as it would for non-hex values.
+* For AND, NOT, ORR, and XOR, the built-in bitwise operators are used. C++ converts the numbers to binary and performs the operations on each bit individually. That result is then converted back into hex format during output.
+* The shift commands are performed using the stream operators (<< and >>). When given two integers as arguments, C++ knows to perform a left or right shift respectively. For the arithmetic shift, the shifting operand is converted to a signed integer. When passed a signed integer, the >> operator will shift in the sign bit.
+
+The flags are stored in an array which defaults to [0, 0]. After each command is run, the the program will check if there was an S on the end of the opcode. If there was, the flags will be changed according to the value of the result variable. The N flag is set if the result is less than zero, and the Z flag is set if the result equals 0.
